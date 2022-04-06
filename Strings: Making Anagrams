@@ -1,0 +1,80 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    /*
+     * Complete the 'makeAnagram' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. STRING a
+     *  2. STRING b
+     */
+
+    public static int makeAnagram(String a, String b) {
+
+        Map<Character,Integer> map = new HashMap();
+        int count = 0;
+        
+        for(int i = 0; i<a.length(); i++){
+            if(map.get(a.charAt(i)) == null){
+                map.put(a.charAt(i),1);
+            }else {
+                int curr = map.get(a.charAt(i));
+                map.put(a.charAt(i),curr+1);
+            }
+        }
+        
+        for(int i = 0; i<b.length(); i++){
+            if(map.containsKey(b.charAt(i))){
+                int curr = map.get(b.charAt(i));
+                if(curr == 1){
+                    map.remove(b.charAt(i));
+                }else{
+            
+                    map.put(b.charAt(i),curr-1);
+                }
+            }else {
+                count++;
+            }
+        }
+        
+        for(Integer values : map.values()){
+            count = count + values;
+        }
+        
+        
+        return count;
+
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String a = bufferedReader.readLine();
+
+        String b = bufferedReader.readLine();
+
+        int res = Result.makeAnagram(a, b);
+
+        bufferedWriter.write(String.valueOf(res));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
