@@ -1,0 +1,25 @@
+class Solution {
+    public int compress(char[] chars) {
+         
+        char[] ret;
+        
+        if(chars.length > 0){
+            char vtc = chars[0]; // value to count
+            int count = 0;
+            
+            for(int i=0; i<chars.length; i++){
+                if(chars[i] == vtc && chars[i+1] == vtc){
+                    count++;
+                }else{
+                    
+                    ret = ret + chars[i-1];
+                    if(count > 1){
+                        ret += (char) count;
+                    }
+                    count = 1;
+                }
+            }
+        }
+        return ret;
+    }
+}
