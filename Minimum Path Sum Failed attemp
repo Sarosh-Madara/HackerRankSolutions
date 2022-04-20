@@ -1,0 +1,22 @@
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int ithPos = 0, jthPos = 0, minPathSum = 0;
+        minPathSum = grid[ithPos][jthPos];
+        while(ithPos != grid.length - 1){
+            int leftItem = grid[ithPos][jthPos+1];
+            int bottomItem = grid[ithPos+1][jthPos];
+            
+            System.out.print(String.format("L:%d~R:%d",leftItem,bottomItem));
+            if(leftItem < bottomItem){
+                minPathSum = minPathSum + leftItem;
+                ithPos++;
+            }else{
+                minPathSum = minPathSum + bottomItem;
+                jthPos++;
+            }
+                
+        }
+        return minPathSum;
+        
+    }
+}
