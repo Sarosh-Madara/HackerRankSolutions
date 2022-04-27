@@ -1,0 +1,34 @@
+private static Stack<Integer>[] tower = new Stack[4];
+
+
+public static void towerOfHanoi(int n){
+  tower[1] = new Stack<>();
+  tower[2] = new Stack<>();
+  tower[3] = new Stack<>();
+  
+  for(int i=n; i>0; i--){
+      tower[1].push(i);
+  }
+
+  moveToH(n,1,2,3);
+
+}
+
+
+private static void moveToH(int n, int a, int b, int c){
+
+  if( n > 0 ){
+      moveToH(n-1,a,c,b);
+      int d = tower[a].pop();
+      tower[c].push(d);
+      moveToH(n-1,b,a,c);
+  }
+
+}
+
+
+public static void main( String args[]){
+	int n = 4;
+towerOfHanoiAlgo(n);
+
+}
