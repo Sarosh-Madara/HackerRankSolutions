@@ -1,0 +1,35 @@
+public class Main {
+    public static String SearchingChallenge(String str) {
+        int n = str.length();
+        int[] d1 = new int[n];
+        char[] t = new char[2 * n + 3];
+        t[0] = '@';
+        t[1] = '#';
+        t[t.length - 1] = '$';
+        int mx = 0, id = 0, resLen = 0, resCenter = 0;
+        for (int i = 0; i < n; i++) {
+            t[2 * i + 2] = str.charAt(i);
+            t[2 * i + 3] = '#';
+        }
+        for (int i = 1; i < t.length - 1; i++) {
+            d1[i] = mx > i ? Math.min(d1[2 * id - i], mx - i) : 1;
+            while (t[i + d1[i]] == t[i - d1[i]]) d1[i]++;
+            if (i + d1[i] > mx) {
+                mx = i + d1[i];
+                id = i;
+            }
+            if (d1[i] - 1 > resLen) {
+                resLen = d1[i] - 1;
+                resCenter = i;
+            }
+        }
+        if (resLen < 2) {
+            return "none";
+        }
+        return str.substring((resCenter - resLen) / 2, (resCenter + resLen) / 2);
+    }
+
+    public static void main(String[] args) {
+        String result = SearchingChallenge("abracecars");
+        System.out.println(result);
+    }
