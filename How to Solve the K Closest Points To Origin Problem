@@ -1,0 +1,144 @@
+K Closest Points To Origin
+The K Closest Points To Origin problem involves comparing the distance of points plotted on a graph. This is a common problem in data analysis, most often found in the context of generating nearest neighbor sets. Similar to other k-selection algorithms, this problem can be solved with a variety of sorting techniques, and challenges us to use a heap data structure to improve time complexity.
+Problem
+K Closest Points To Origin
+Given a list of tuples that represent (X, Y) coordinates on an XY plane and an integer K, return a list of the K-closest points to the origin (0, 0).
+
+Example Inputs and Outputs
+Example 1
+Input:
+points = [[5, 5], [3, 3], [4, 4]], k = 2
+Output:
+[[3, 3], [4, 4]] or [[4, 4], [3, 3]]
+
+k_closest_points_to_origin_1-1.png
+
+Example 2
+Input:
+points = [[-1, 4], [5, 3], [-1, -1], [8, -6], [1, 2]], k = 2
+Output:
+[[-1, -1], [1, 2]] or [[1, 2], [-1, -1]]
+
+k_closest_points_to_origin_1-2.png
+
+Constraints
+The number of nodes in the list is in the range [0, 5000]
+K is >= 0 and <= the length of the input list
+
+Solution
+K Closest Points To Origin
+Watch Someone Solve K Closest Points To Origin
+
+Microsoft Interview
+Go Interview
+Advance this person to the next round?
+
+Thumbs up
+Technical Skills:
+3/4
+Problem Solving Ability:
+3/4
+Communication Ability:
+3/4
+Show Transcript
+More Details
+
+New Tab
+
+Google Interview
+C++ Interview
+Advance this person to the next round?
+
+Thumbs up
+Technical Skills:
+3/4
+Problem Solving Ability:
+4/4
+Communication Ability:
+4/4
+Show Transcript
+More Details
+
+New Tab
+
+Microsoft Interview
+C++ Interview
+Advance this person to the next round?
+
+Thumbs down
+Technical Skills:
+3/4
+Problem Solving Ability:
+2/4
+Communication Ability:
+3/4
+Show Transcript
+More Details
+
+New Tab
+Watch more mock interviews
+1
+2
+3
+4
+5
+6
+7
+Problem Approaches
+Reading through the problem a few ideas immediately jump out:
+
+We need to calculate the distance of each point from the origin (or at a minimum convert the coordinate tuple to a numerical value)
+Once the distance has been calculated we need to determine the K-closest points
+To solve this problem we will need to do some basic algebra. We have a right triangle and we need to calculate the length of the hypotenuse, and we can do so using the Pythagorean theorem:
+
+A^2 + B^2 = C^2
+
+k_closest_points_to_origin_1-3.png
+
+As a quick aside, we don't actually need to calculate C (the hypotenuse, or distance from origin), as simply calculating A^2 + B^2 for each coordinate will allow us to order the points from closest to furthest from origin without actually determining the exact distance.
+
+Now that we know how to calculate the distances, let's explore different ways to find the k-closest points.
+
+1. Sorting
+Given we need to find the K closest points to origin, the naive approach should hopefully become clear relatively quickly. If we calculate the distance for each coordinate pair, we can then sort the coordinates by distance and finally slice the list from 0 to K in order to return the K closest points to the origin.
+
+K Closest Points to Origin Python and JavaScript Solutions - Sorting
+Python
+JavaScript
+def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+  # Note: Sorting the input list mutates the input
+  # -> whether the input should be mutated (as opposed to copied and then sorted)
+  # -> can be decided collaboratively with the interviewer
+  points.sort(key=lambda xy_tuple: xy_tuple[0]**2 + xy_tuple[1]**2)
+  return points[:k]
+Time/Space Complexity Analysis
+Time Complexity: O(n * log(n))
+Space Complexity: O(k), as we are sorting in place and returning a new list with K points
+2. Using a Heap
+Given we have found a somewhat-obvious, naive solution that runs in O(n*log(n)) time, we should start thinking about how we can use different approaches or data structures in order to optimize the time complexity of our algorithm. In order to improve our time complexity we will need to avoid fully sorting the input, and if we aren't sorting the input we will need to repeatedly select the point with the smallest distance from the origin.
+
+It is here that alarm bells should start to go off in our head. What data structure can be used to efficiently, repeatedly select the smallest (or largest) item in a collection? And the answer is... a heap!
+
+To give a quick refresher, heaps are an ordered (but not fully sorted) data structure often backed by an array. They can be created in linear time and they ensure selection of the smallest or largest element at any given time, but they are not fully in order. Read more about how heaps are constructed and used here.
+
+Back to our problem, we can iterate over the list, calculate the distance from the origin for each coordinate and convert it to a heap in place. From there, in order to find the K closest points to the origin we will need to pop from the heap K times, which is often a method exposed via heap library code in a given language.
+
+K Closest Points to Origin Python and JavaScript Solutions - Using a Heap
+Python
+JavaScript
+import heapq
+def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+  # O(n)
+  distance_coordinate_tuples = [(x*x + y*y, [x, y]) for x, y in points]
+  # O(n)
+  heapq.heapify(distance_coordinate_tuples)
+  # O(k*log(n))
+  k_smallest = heapq.nsmallest(k, distance_coordinate_tuples)
+  # O(k)
+  return [coordinate for distance, coordinate in k_smallest]
+# same as above as a one-liner
+def kClosest(self, points, k):
+  return heapq.nsmallest(k, points, key=lambda p: p[0]**2 + p[1]**2)
+Time/Space Complexity Analysis
+Time Complexity: O(n) + O(k*log(n))
+Space Complexity: O(1) (or O(n) if you mutate the input)
