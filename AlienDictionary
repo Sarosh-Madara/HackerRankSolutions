@@ -1,0 +1,45 @@
+How to Solve the Alien Dictionary Problem
+
+Introduction
+Alien Dictionary
+The Alien Dictionary problem involves determining whether a given order of words is valid according to an imaginary dictionary, and if so, returning a possible order for the letters used. The challenge of this problem is both in understanding how to approach the ask logically, as well as in applying graph traversal algorithms to devise a solution.
+Problem
+Alien Dictionary
+You are given a list of lexicographically sorted words from an alien language. This language, despite sharing a character set with ASCII, has a unique order. Return the alphabetical order of all the letters found in the list of words. There may be more than one possible answer.
+
+Example Inputs and Outputs
+Example 1
+Input: words = ["kaa","akcd","akca","cak","cad"]
+Output: "kdac"
+
+Example 2
+Input: words = ["b","a"]
+Output: "ba"
+
+Example 3
+Input: words = ["ab","a","b"]
+Output: ""
+
+Constraints
+0 <= words.length <= 100
+0 <= words[i].length <= 100
+The character set for words[i] is ASCII.
+
+
+Alien Dictionary: how to solve this problem
+Some graph problems look like graph problems: the problem domain is classicaly graph-related (networking, travel between cities, etc), the task is to explicitly build a graph, or you're given a graph data structure as an input. The crux of this problem, however, is to see a graph where there isn't an obvious graph.
+
+And it really isn't obvious - a list of strings does not immediately scream graph. How can we approach a problem like this in an interview setting and discover the graph? First, start by carefully understanding what the problem offers us. The given words are lexicographically ordered, which implies that a relative relationship between some the characters exists. We are asked to find a possible order for the characters in the list of words, and since there could be more than one order, this alerts us that this could be a kind of pathfinding problem - the imagined path being a valid order of all the characters following their corresponding relationships in the list of words.
+
+Graphs come in many forms, so let's think concretely about what our graph might look like in this case. A graph is simply a collection of nodes (vectors), but what makes it come to life are the connections (edges) between the vectors: each vector contains a reference to any other vectors it may be connected to in the graph. Importantly, each vector is not organized absolutely within the graph - unlike, say, an array, where each member is indexed globally - but connections can exist between any two vectors, indicating either a bi-directional relationship (like a friend) or a directional relationship (like a one-way street). Since our input is ordered, it makes sense to represent the characters using a directed graph. Rather than trying to decipher exactly where a given character falls in the global order, we can try to figure out what character it comes before or after based on the relative lexicographical order.
+
+Before moving on, we should also clarify with out interviewer if the input will always be "valid" - or in other words, if it will always result in a valid output. There are a couple edges cases we might want to defend against if the input is not always friendly. First, the problem asks us to return an alphabetical order for all the characters included in the input. We can imagine a case where a character within our graph is unreachable - due to a cycle - so this would indicate a character whose alphabetical order remains inconclusive. Second, it seems possible that the input can contain words followed by their own prefix, like in the case of "ab" and "a". This, too, will be invalid, since in a valid alphabet, prefixes would have precedence.
+
+Let's divide our work into three steps: 1) Derive relational character data from the input list; 2) Build a graph based on these relations; 3) Traverse the graph to solve the problem (we'll consider two different approaches for this step).
+
+Step 1: Derive relationships between characters
+
+Example: ["kaa","akcd","akca","cak","cad"]
+
+What relationships between characters can we extract from the example above? We know for certain that the first letters of each word are in order. This doesn't necessarily mean their order is complete - there could be letters between them in the alphabet - but we do know their relative positions are fixed, that is to say, the first letter of the first word necessarily comes before the first letter of the second word. The same conclusion can be drawn for the third word and the fourth word (since the second and third words share the same starting letter, we'll skip them for now). Let's keep track of these relationships:
+
