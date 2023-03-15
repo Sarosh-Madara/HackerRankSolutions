@@ -1,0 +1,27 @@
+How to Solve the K Closest Points To Origin Problem
+
+
+Introduction
+K Closest Points To Origin
+The K Closest Points To Origin problem involves comparing the distance of points plotted on a graph. This is a common problem in data analysis, most often found in the context of generating nearest neighbor sets. Similar to other k-selection algorithms, this problem can be solved with a variety of sorting techniques, and challenges us to use a heap data structure to improve time complexity.
+
+Problem
+K Closest Points To Origin
+Given a list of tuples that represent (X, Y) coordinates on an XY plane and an integer K, return a list of the K-closest points to the origin (0, 0).
+
+Example Inputs and Outputs
+Example 1
+Input:
+points = [[5, 5], [3, 3], [4, 4]], k = 2
+Output:
+[[3, 3], [4, 4]] or [[4, 4], [3, 3]]
+
+Example 2
+Input:
+points = [[-1, 4], [5, 3], [-1, -1], [8, -6], [1, 2]], k = 2
+Output:
+[[-1, -1], [1, 2]] or [[1, 2], [-1, -1]]
+
+Constraints
+The number of nodes in the list is in the range [0, 5000]
+K is >= 0 and <= the length of the input list
