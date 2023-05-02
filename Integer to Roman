@@ -1,0 +1,68 @@
+class Solution {
+    public String intToRoman(int num) {
+
+        String ret = "";
+
+        while(num > 0){
+        
+        if(num % 1000 != 0){
+            if(num>= 1000){
+            ret += "M";
+            num -= 1000;
+            }
+            // System.out.println("resul: " + num );
+        }
+
+        if(num % 500 != 0){
+            
+            if(num>= 500){
+            ret += "D";
+            num -= 500;
+            }
+        }
+
+        if(num % 100 != 0){
+            
+            if(num>= 100){
+            ret += "C";
+            num -= 100;
+            }
+        }
+
+        if(num % 50 != 0){
+            
+            if(num>= 50){
+            ret += "L";
+            num -= 50;
+            }
+        }
+
+        if(num % 10 != 0){
+            
+            if(num>= 10){
+            ret += "X";
+            num -= 10;
+            }
+        }
+
+        if(num % 5 != 0){
+            
+            if(num>= 5){
+            ret += "V";
+            num -= 5;
+            }
+        }
+
+        if(num > 1){
+            
+            ret += "I";
+            num -= 1;
+            
+        }
+        if(num == 0){
+            break;
+        }
+        }
+        return ret + ;
+    }
+}
